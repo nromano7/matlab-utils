@@ -1,3 +1,4 @@
-# matlab-utils
+# matlab-utils 
 
-A collection of Matlab utilities. 
+A collection of Matlab utilities.
+
