@@ -1,7 +1,8 @@
 classdef progressbar < handle
 %% classdef progressbar
 % 
-% 
+% This is a OOP refactor of Paul Proteus' original textprogressbar (located
+% in ~/libs/+textprogressbar);
 % 
 % author: john devitis
 % create date: 26-Nov-2016 14:27:15
@@ -9,11 +10,11 @@ classdef progressbar < handle
 
 %% object properties
 	properties
-        name = 'task'
+        name = 'A long running task...' % process name
+        N                               % total number of iterations
         strCR=[]
         strPercentageLength=10
         strDotsMaximum=10
-        N
 	end
 
 %% dependent properties
@@ -30,13 +31,11 @@ classdef progressbar < handle
 	methods
 		function self = progressbar(N,name)
             self.N = N;
-            if nargin>2
+            if nargin > 1
                 self.name = name;
             end
-%             fprintf('%s',self.name);
-            self.update(sprintf('%s\t\t',self.name));
+            self.update(sprintf('%s\t',self.name));
         end
-        
 	end
 
 %% ordinary methods
@@ -65,7 +64,6 @@ classdef progressbar < handle
 				nDots = floor(c/100*self.strDotsMaximum);
 				dotOut = ['[' repmat('.',1,nDots) repmat(' ',1,self.strDotsMaximum-nDots) ']'];
 				strOut = [percentageOut dotOut];
-				
 				% Print it on the screen
 				if self.strCR == -1
 					% Don't do carriage return during first run
@@ -73,18 +71,21 @@ classdef progressbar < handle
 				else
 					% Do it during all the other runs
 					fprintf([self.strCR strOut]);
-				end
-				
+                end
 				% Update carriage return
 				self.strCR = repmat('\b',1,length(strOut)-1);
-				
 			else
 				% Any other unexpected input
 				error('Unsupported argument type');
-			end
+            end
+            % check if finished
+            if self.n == self.N
+                self.update('Done')
+            end
         end
-        function finish(self)
-            self.update(sprintf('\tDone.'));
+        
+        function done(self)
+            self.update(sprintf(' Done.'));
         end
         
 	end % /ordinary

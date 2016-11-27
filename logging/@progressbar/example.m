@@ -1,21 +1,22 @@
 function example(N)
+%% Command line progressbar demo
+%
+% author: john devitis
+% create date: 11272016
 clc
+
 % Number of iterations (in seconds).
 if nargin<1; N = 50; end
 fprintf('Message Log Example:\n\n\n');
 
 % Create instance of Timerwaitbar.
-logg = progressbar(N,'Logged Loop Example');
+pbar = progressbar(N,'A long running task...');
 
 % Do work.
 for n = 1:N
-%     logg.start(sprintf('task %i',n))
-    
-    % Work.
-    pause(.1);   
-
-    % Update UI with status message. 
-    logg.update(n);
-    
+    pause(.1);      % Work.
+    pbar.update(n); % Show progress. 
 end
-logg.finish()
+
+% Notify complete.
+pbar.done()         
