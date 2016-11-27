@@ -33,8 +33,8 @@ classdef msglogger < handle
             % initialize w/ name if given
             if nargin > 0; self.name = name; end
             % if fileid given, notify console and log to file
-            if nargin > 1; self.print('Logging to file.'); self.fid = fid; 
-            end
+            if nargin > 1; self.fid = fid; end;
+            if self.fid ~= 1; self.print('Logging to file.'); end
             self.print('Main processing started.');
 		end
 	end
@@ -76,7 +76,7 @@ classdef msglogger < handle
         function alivetime(self)
         %% print instance alive time 
             tot = etime(clock,datevec(self.born));
-            self.print(sprintf('Alive(%4.2f seconds (%4.2f minutes))',tot,tot/60));
+            self.print(sprintf('Alive for %4.2f seconds (%4.2f minutes)',tot,tot/60));
         end
         
         function finish(self)

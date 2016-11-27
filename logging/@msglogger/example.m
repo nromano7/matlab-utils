@@ -7,7 +7,7 @@ clc
 fprintf('Message Log Example:\n');
 
 % The number of iterations (in seconds).
-if nargin<1; N = 10; end
+if nargin<1; N = 5; end
 
 % Create instance of message logger.
 logg = msglogger('Logged Loop Example');
