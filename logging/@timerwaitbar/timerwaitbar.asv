@@ -24,7 +24,7 @@ classdef timerwaitbar < handle
     
     % Properties 
     properties
-        name = 'Logged-Timed Loop'
+        name = 'LoLoop'
         born % string of create time
         lastupdate
 
@@ -44,7 +44,8 @@ classdef timerwaitbar < handle
     methods
         
         % Constructor
-        function self = timerwaitbar(Iterations,name)
+        function self = Timerwaitbar(Iterations,name)
+            clc;
             % record activity
             self.born = datestr(datetime); 
             self.lastupdate = self.born;
@@ -179,6 +180,6 @@ classdef timerwaitbar < handle
     end
     
     methods (Static)
-        example(N)
+        Example(N)
     end
 end

@@ -1,11 +1,11 @@
-function Example(N)
+function example(N)
 clc
 % Number of iterations (in seconds).
-if nargin<1; N = 20; end
+if nargin<1; N = 15; end
 fprintf('Timerwaitbar Example:\n(this example should take roughly %i seconds)\n\n',N);
 
 % Create instance of Timerwaitbar.
-twb = Timerwaitbar(N,'Example');
+twb = timerwaitbar(N,'Example');
 
 % Do work.
 for n = 1:N
@@ -25,4 +25,4 @@ for n = 1:N
 end
 
 % Clean up.
-clear twb
+delete(twb)
