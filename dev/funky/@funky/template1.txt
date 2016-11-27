@@ -1,0 +1,14 @@
+function %s()
+%%%s %s #name;title;
+%%
+%%   %s #desc;
+%%
+%%   Example
+%%
+%%
+%%   See also
+%%
+%%   ------
+%%   author: %s #author;
+%%   email:  %s #email;
+%%   create date: %s #createdate;
