@@ -1,7 +1,9 @@
 classdef msglogger < handle
-%% classdef msglog
-% 
-% 
+%% Message Logger Class
+%
+% Examples:
+%   msglogger.example()
+%   msglogger.example2file()
 % 
 % author: john devitis
 % create date: 26-Nov-2016 13:54:58
@@ -44,6 +46,8 @@ classdef msglogger < handle
         end
         
         function print(self,txt,pf,nl)
+        %% print logged message
+        %  pf=1 for prefix. nl=1 for new line. 
             if nargin < 3; pf = 1; end;
             if nargin < 4; nl = 1; end;
             if pf; self.print_prefix(); end;
@@ -53,6 +57,7 @@ classdef msglogger < handle
         end
         
         function start_task(self,name,n,N)
+        %% start named task. 
             ftxt = 'Task(%s)::Starting::';
             % default task name if none given
             if nargin < 2; name = 'Loop Iteration'; end; 
@@ -64,19 +69,18 @@ classdef msglogger < handle
         end
         
         function done_task(self)
+        %% finish named task. 
             self.print('\tDone.',0,1);
         end
             
         function alivetime(self)
-            tot = self.seconds_alive();
+        %% print instance alive time 
+            tot = etime(clock,datevec(self.born));
             self.print(sprintf('Alive(%4.2f seconds (%4.2f minutes))',tot,tot/60));
         end
         
-        function tot = seconds_alive(self)
-            tot = etime(clock,datevec(self.born));
-        end
-        
         function finish(self)
+        %% finish process and shut down. 
             self.print('Main process finished');
             self.alivetime();
             self.shutdown();
@@ -84,6 +88,7 @@ classdef msglogger < handle
         end
         
         function shutdown(self)
+        %% over-writable method for deterministic shutdown of sub-classes 
             self.print('Shutting down...');
         end
         
