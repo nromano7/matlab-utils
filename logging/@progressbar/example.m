@@ -5,7 +5,7 @@ if nargin<1; N = 50; end
 fprintf('Message Log Example:\n\n\n');
 
 % Create instance of Timerwaitbar.
-logg = msglog.progressbar(N,'Logged Loop Example');
+logg = progressbar(N,'Logged Loop Example');
 
 % Do work.
 for n = 1:N
