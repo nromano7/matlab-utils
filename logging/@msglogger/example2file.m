@@ -4,15 +4,14 @@ function logg = example2file(N,fdir)
 % author: john devitis
 % create date: 11272016
 
-clc
-fprintf('Message Log Example:\n');
+fprintf('Message Log Example - Write to file:\n');
 
 if nargin < 2
-    fdir = fullfile(pwd,'Message-Logger-ExampleLog.txt');
+    fdir = fullfile(pwd,'message-logger-example.txt');
 end
 
 % The number of iterations (in seconds).
-if nargin<1; N = 10; end
+if nargin<1; N = 100; end
 
 % Create instance of message logger.
 logg = msglogger('Logged Loop Example');
@@ -26,7 +25,7 @@ for ii = 1:5
 end
 
 % Do work.
-logg.print('Enough of that. Lets do some work now')
+logg.print('Enough of that.')
 logg.print('Starting Main Loop')
 for n = 1:N
     
@@ -34,7 +33,7 @@ for n = 1:N
     logg.start_task('Loop Iteration',n,N)
     
     % Work.
-    pause(.05);   
+    pause(.01);   
 
     % Log completion. 
     logg.done_task()

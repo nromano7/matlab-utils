@@ -13,7 +13,7 @@ classdef msglogger < handle
 	properties
         name = 'Logged Loop'                        % process name
         born                                        % date time string of instance creation
-        prefix = 'MSG::Process(%s)::Time(%s)::';    % configurable prefix string
+        prefix = 'LOG::Time(%s)::Process(%s)::';    % configurable prefix string
         fid = 1                                     % default printing to console. provide valid fid to write to file
 	end
 
@@ -42,7 +42,7 @@ classdef msglogger < handle
 %% ordinary methods
 	methods 
         function print_prefix(self)
-            fprintf(self.fid,self.prefix,self.name,datestr(datetime));
+            fprintf(self.fid,self.prefix,datestr(datetime),self.name);
         end
         
         function print(self,txt,pf,nl)
@@ -76,15 +76,15 @@ classdef msglogger < handle
         function alivetime(self)
         %% print instance alive time 
             tot = etime(clock,datevec(self.born));
-            self.print(sprintf('Alive for %4.2f seconds (%4.2f minutes)',tot,tot/60));
+            self.print(sprintf('Alive for %4.2f seconds (%4.2f minutes).',tot,tot/60));
         end
         
         function finish(self)
         %% finish process and shut down. 
-            self.print('Main process finished');
+            self.print('Main process finished.');
             self.alivetime();
             self.shutdown();
-            self.print('Exiting.');
+            self.print('Done.');
         end
         
         function shutdown(self)
