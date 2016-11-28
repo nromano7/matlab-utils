@@ -1,5 +1,5 @@
 function example
-%% Message Logger [msglog] Example. 
+%% Message Logger [logger] Example. 
 %
 % author: john devitis
 % create date: 11272016
@@ -10,7 +10,7 @@ N=10;
 main(N,1);
 
 %% Write to file.
-fid = fopen('msglogger-example.txt','w');
+fid = fopen('logger-example.txt','w');
 main(N,fid);
 
 end
