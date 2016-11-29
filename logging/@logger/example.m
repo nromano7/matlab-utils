@@ -39,7 +39,7 @@ function main(N,fid)
     logg.finish() 
     
     % Clean up.    
-    if fid ~= 1; edit('msglogger-example.txt'); end;
+    if fid ~= 1; edit('logger-example.txt'); fclose(fid); end;
     % Error screen no output request - necessary for any handles object 
     if nargout == 0
         clear logg
