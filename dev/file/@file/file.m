@@ -46,6 +46,7 @@ classdef file < handle
         %  edit(self.fullname);
             edit(self.fullname);
         end
+        
         function fid = open(self,perm)
         %% open() - open file with error screening capability.
         % this function is meant to be a catch-all for catching errors (for
@@ -68,6 +69,19 @@ classdef file < handle
                 error(errmsg);
             end 
         end  
+        
+        function chk = isunique(self)
+        %% check if file is unique in path; returns true/false boolean 
+            % list contents of directory
+            dirnames = dir(self.path);
+            chk = 1;
+            for ii = 1:length(dirnames) % check all dir names
+                if strcmp([self.name self.ext], dirnames(ii).name)
+                    chk = 0; % matched, return false unique flag
+                    break
+                end
+            end
+        end
 
     %% dependent methods
         function set.name(self,value)
