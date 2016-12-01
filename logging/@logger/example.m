@@ -3,45 +3,53 @@ function example
 %
 % author: john devitis
 % create date: 11272016
-clc
-fprintf('Message Log Example:\n');
-N=10;
-%% Write to console.
-main(N,1);
 
-%% Write to file.
-fid = fopen('logger-example.txt','w');
-main(N,fid);
+    clc
+    N=100; 
+    fprintf('Message Log Example:\n');
 
-end
+%% Write to console (default)
 
-function main(N,fid)
-    % Create instance of message logger.
-    logg = logger('Logged Loop Example',fid);
-    
-    % Write to console (fid=1, default). Or to file (fid=fopen)
-    logg.fid = fid;
-    
-    % Print whatever we want to console (or file if fid given). 
+    logg = logger('Console Logging');
+    % Print time stamped messages of whatever we want.
     for ii = 1:5
         logg.print('Yeehaww, lets start logging!')
     end
-
-    % Do work.
     logg.print('Enough of that. Lets loop some more.')
+    % Do work.
     for n = 1:N
-        logg.task('Loop',n,N)   % Log the start of a task.
-        % Work.                 % Do something.
-        logg.done()             % Log task completion.                 
+        logg.task('Main Loop',n,N)  % Log the start of a task.
+        % Work.                     % Do something.
+        logg.done()                 % Log task completion.                 
     end
+    % Signal process completion
+    logg.stop()
 
-    % Log main process completion and shutdown.
-    logg.finish() 
-    
-    % Clean up.    
-    if fid ~= 1; edit('logger-example.txt'); fclose(fid); end;
-    % Error screen no output request - necessary for any handles object 
-    if nargout == 0
-        clear logg
+
+%% Write to file.
+
+    logg = logger('File Logging','logger-example.txt');
+
+    % Print time stamped messages of whatever we want.
+    for ii = 1:5
+        logg.print('Yeehaww, lets start logging!')
     end
+    logg.print('Enough of that. Lets loop some more.')
+    % Do work.
+    for n = 1:N
+        logg.task('Main Loop',n,N)  % Log the start of a task.
+        % Work.                     % Do something.
+        logg.done()                 % Log task completion.                 
+    end
+    % Signal process completion
+    logg.stop()
+    
+    % Show log file 
+    edit('logger-example.txt');
+
+%% Clean up. Error screen no output request
+    %  necessary for any handle objects 
+    if nargout == 0; clear logg; end
+
+
 end
