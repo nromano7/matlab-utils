@@ -124,7 +124,7 @@ classdef logger < handle
                 self.task('demo-run',n,N);
                 self.done()
             end
-            self.finish()
+            self.stop()
         end
         
 	end % /ordinary
