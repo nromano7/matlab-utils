@@ -9,7 +9,7 @@ classdef logger < handle
 %       % do work
 %       logg.done()
 %   end
-%   logg.finish;
+%   logg.stop;
 %
 % author: john devitis
 % create date: 26-Nov-2016 13:54:58
@@ -125,6 +125,11 @@ classdef logger < handle
                 self.done()
             end
             self.stop()
+        end
+        
+        function nl(self)
+            %% go to new line. inserts return '\n' at cursor. 
+            fprintf(self.fid,'\n');
         end
         
 	end % /ordinary
