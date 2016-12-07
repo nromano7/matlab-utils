@@ -128,7 +128,7 @@ classdef logger < handle
         end
         
         function nl(self)
-            %% go to new line. inserts return '\n' at cursor. 
+        %% go to new line. inserts return '\n' at cursor. 
             fprintf(self.fid,'\n');
         end
         
