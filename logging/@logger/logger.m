@@ -70,11 +70,12 @@ classdef logger < handle
             fprintf(self.fid,sprintf(ftxt,txt));
         end
                 
-        function start(self,name)
+        function start(self,name,msg)
         %% start logging main process
             if nargin > 1 && ischar(name); self.process = name; end;
+            if nargin < 3; msg = ''; end
             self.process_born = datestr(datetime);
-            self.print('Started.');
+            self.print(sprintf('Started. %s',msg));
         end
         
         function stop(self)
