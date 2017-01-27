@@ -64,6 +64,7 @@ classdef sqlite_engine < handle
 		end
 
 		function self = select(self,col,tabl)
+			self.reset;
 			self.addsql(sprintf('SELECT %s FROM %s',col,tabl));
 		end
 
@@ -79,7 +80,7 @@ classdef sqlite_engine < handle
 
         function self = and(self,varargin)
             for ii = 1:length(varargin)
-            	self.addsql(sprintf(' AND %s',varargin{ii}),',');
+            	self.addsql(sprintf('AND %s',varargin{ii}));
             end
         end
 

@@ -11,7 +11,7 @@ classdef sqlite_table
 properties
 	name
 	columns
-	values
+	data
 	types
 end
 
@@ -33,17 +33,10 @@ end
 %% ordinary methods
 methods
 	function s = table2struct(self)
-		s = cell2struct(self.values,self.columns,2);
+		s = cell2struct(self.data,self.columns,2);
 	end
-	function s = xgetStruct(self)
-		warning('off','MATLAB:structOnObject')
-		s = struct(self);
-		for ii = 1:length(self.columns)
-			x = struct(self.columns{ii},self.values(:,ii));
-			s = forcefields(s,x);
-			%s.(self.columns{ii}) = x.(self.columns{ii});
-			%s = cell2struct(self.values(:,ii),self.columns{ii},1);
-		end
+	function names = get_col_names(self)
+		names = strjoin(self.columns,',');
 	end
 end % /ordinary
 
