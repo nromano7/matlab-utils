@@ -45,8 +45,9 @@ classdef sqlite_engine < handle
 			self.conn = sqlite(self.filename);
 		end
 
-		function data = fetch(self)
+		function data = fetch(self,sql)
 			data = [];
+			if nargin > 1, self.reset; self.addsql(sql); end
 			if not(isempty(self.sql)),
 				data = fetch(self.conn,self.sql);
 				self.fetched = 1;
