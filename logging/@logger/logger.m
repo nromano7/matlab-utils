@@ -42,9 +42,9 @@ classdef logger < handle
             self.born = datestr(datetime);
             % save process name if given
             if nargin > 0 && ischar(process); self.process = process; end;
-            % notify console of log location
-            if nargin > 1; self.print('Logging to flie.');
-            else self.print('Logging to console.'); end
+%            % notify console of log location
+%            if nargin > 1; self.print('Logging to flie.');
+%            else self.print('Logging to console.'); end
             % open file in append mode if given
             if nargin > 1; self.fid = fopen(filename,'a'); end
             % finally, start the process if name given
@@ -84,12 +84,11 @@ classdef logger < handle
         %  successfully.
             self.shutdown();
             self.alivetime();
-            self.print('Done. Logging stopped.');
         end
 
         function shutdown(self)
         %% over-writable method for deterministic shutdown
-            self.print('Shutting down...');
+            %self.print('Shutting down...');
         end
 
         function task(self,name,n,N)
