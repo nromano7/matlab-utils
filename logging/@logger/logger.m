@@ -28,11 +28,14 @@ classdef logger < handle
         timef = '%s'          % time format string
         processf = 'Process(%s):'   % process format string
         taskf = 'Task(%s):'         % task format string
+		current_task
     end
 
 %% dependent properties
     properties (Dependent)
         header
+		alive_time
+		task_time
     end
 
 %% constructor
@@ -42,9 +45,6 @@ classdef logger < handle
             self.born = datestr(datetime);
             % save process name if given
             if nargin > 0 && ischar(process); self.process = process; end;
-%            % notify console of log location
-%            if nargin > 1; self.print('Logging to flie.');
-%            else self.print('Logging to console.'); end
             % open file in append mode if given
             if nargin > 1; self.fid = fopen(filename,'a'); end
             % finally, start the process if name given
@@ -54,6 +54,10 @@ classdef logger < handle
 
 %% ordinary methods
 	methods
+		function resetclock(self)
+			self.process_born = datestr(datetime);
+		end
+
         function print_header(self)
         %% print sorted header
             fprintf(self.fid,strcat(self.header,self.delim));
@@ -70,6 +74,13 @@ classdef logger < handle
             fprintf(self.fid,sprintf(ftxt,txt));
         end
 
+		function printalive(self)
+			%% print process alive time
+			%tot = etime(clock,datevec(self.process_born));
+			%alive_string = sprintf('Alive for %4.2f seconds (%4.2f minutes).',tot,tot/60);
+			self.print(self.alive_time);
+		end
+
         function start(self,name,msg)
         %% start logging main process
             if nargin > 1 && ischar(name); self.process = name; end;
@@ -82,13 +93,13 @@ classdef logger < handle
         %% log process completion and shutdown.
         %  note - shutdown is wrapped here so we know that was completed
         %  successfully.
-            self.shutdown();
-            self.alivetime();
+			self.print([self.process ' done. ' self.alive_time]);
+			self.process = '';
         end
 
         function shutdown(self)
         %% over-writable method for deterministic shutdown
-            %self.print('Shutting down...');
+
         end
 
         function task(self,name,n,N)
@@ -103,16 +114,36 @@ classdef logger < handle
             self.print(txt,1,0);
         end
 
-        function done(self)
-        %% log task completion.
-            self.print('\tDone.',0,1);
-        end
+		function starttask(self,tsk)
+			self.resetclock;
+			self.current_task = tsk;
+			self.print(['Started ' tsk]);
+		end
 
-        function alivetime(self)
-        %% print process alive time
-            tot = etime(clock,datevec(self.process_born));
-            self.print(sprintf('Alive for %4.2f seconds (%4.2f minutes).',tot,tot/60));
-        end
+		function done(self)
+		%% log process
+			if isempty(self.current_task)
+				self.print(['Done. ' self.task_time]);
+			else
+				self.print([self.current_task ' done. ' self.task_time]);
+				self.current_task = [];
+			end
+		end
+
+		function finish(self)
+			self.print(['Process finished. '], self.alive_time);
+		end
+
+		function alive_time = get.alive_time(self)
+			tot = etime(clock,datevec(self.born));
+			alive_time = sprintf('Alive for %4.2f seconds (%4.2f minutes).',tot,tot/60);
+		end
+
+		function task_time = get.task_time(self)
+			tot = etime(clock,datevec(self.process_born));
+			task_time = sprintf('Alive for %4.2f seconds (%4.2f minutes).',tot,tot/60);
+		end
+
 
         function run(self,N)
         %% run through N logging events as demo process. helpful for
