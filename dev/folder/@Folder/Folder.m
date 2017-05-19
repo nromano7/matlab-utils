@@ -24,21 +24,16 @@ classdef Folder < handle
         end
         
         function obj = set.folder_path(obj,arg)
-            
-            % set folder path
             obj.folder_path = arg;
-            
-            % get parts
-            [pathstr,name,~] = fileparts(arg);
-            
-            % assign parts
-            obj.parent_path = pathstr;
-            obj.folder_name = name;
         end
         
         function obj = set.folder_name(obj,arg)
-            obj.folder_name = arg;
-            %obj.folder_path = fullfile(obj.parent_path,arg);
+            
+            if ~isempty(obj.parent_path)
+                obj.folder_name = arg;
+                obj.folder_path = fullfile(obj.parent_path,arg);
+            end
+           
         end
             
         
